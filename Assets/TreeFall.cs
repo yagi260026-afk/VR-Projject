@@ -15,12 +15,18 @@ public class TreeFall : MonoBehaviour
     // 倒れ済み判定
     private bool isFallen = false;
 
+    public speech_text villagerSpeech;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (isFallen)
+        // 1. まず相手のタグをチェック（Axeじゃなければ即座に無視する）
+        if (!other.CompareTag("Axe"))
             return;
 
-        if (!other.CompareTag("Axe"))
+        // 🛠️ テスト用ログ（おのが当たったときだけ表示されるようになります）
+        Debug.Log("★おのが木に触れました！相手の名前: " + other.name);
+
+        if (isFallen)
             return;
 
         AxeAttack attack =
@@ -28,10 +34,13 @@ public class TreeFall : MonoBehaviour
 
         if (attack == null ||
             !attack.isAttacking)
+        {
+            // 💡 もしおのは当たっているのにHPが減らない場合は、ここが原因です
+            Debug.Log("おのは当たったが、攻撃中(isAttacking)になっていません");
             return;
+        }
 
         treeHP--;
-
         Debug.Log("木HP : " + treeHP);
 
         if (treeHP <= 0)
@@ -93,6 +102,12 @@ public class TreeFall : MonoBehaviour
 
         // 木材生成
         DropWood();
+
+        // 村人のスクリプトに通知
+        if (villagerSpeech != null)
+        {
+            villagerSpeech.OnTreeCut();
+        }
 
         // 少し待つ
         yield return new WaitForSeconds(0.5f);

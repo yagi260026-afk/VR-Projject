@@ -48,4 +48,4 @@ public class speech_text : MonoBehaviour
         textStage = 3; // ステージを3（台において〜）に強制進行
         UpdateText();
     }
-}
+}　　

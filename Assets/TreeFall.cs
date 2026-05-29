@@ -19,11 +19,10 @@ public class TreeFall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // 1. まず相手のタグをチェック（Axeじゃなければ即座に無視する）
+        
         if (!other.CompareTag("Axe"))
             return;
 
-        // 🛠️ テスト用ログ（おのが当たったときだけ表示されるようになります）
         Debug.Log("★おのが木に触れました！相手の名前: " + other.name);
 
         if (isFallen)
@@ -35,7 +34,6 @@ public class TreeFall : MonoBehaviour
         if (attack == null ||
             !attack.isAttacking)
         {
-            // 💡 もしおのは当たっているのにHPが減らない場合は、ここが原因です
             Debug.Log("おのは当たったが、攻撃中(isAttacking)になっていません");
             return;
         }
